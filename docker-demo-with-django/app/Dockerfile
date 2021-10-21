@@ -17,6 +17,9 @@ RUN apk update \
     && pip install psycopg2 \
     && apk del build-deps
 
+#libffi-develをインストール
+RUN apk add build-base libffi-dev
+
 # Pipenvをインストール
 RUN pip install --upgrade pip \
 && pip install pipenv
@@ -26,6 +29,8 @@ COPY ./Pipfile /usr/src/app/Pipfile
 
 # pipfileからパッケージをインストールしてDjango環境を構築
 RUN pipenv install --skip-lock --system --dev
+#RUN pipenv install --system --ignore-pipfile --deploy
+
 
 # entrypoint.shをコピー
 COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
