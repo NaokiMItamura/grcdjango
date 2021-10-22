@@ -15,9 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include#追加
+from django.contrib.auth import views
+from django.conf.urls import include
+from django.contrib.auth import views as auth_views
+from . import views
+from .views import home
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     #追加
-    path('', include('helloworldapp.urls')),
+    #追加
+    #path('', include('helloworldapp.urls')),
+    path('', views.index, name='index'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('oauth/', include('social_django.urls', namespace='social')),
+    path('accounts/profile/', views.index, name='index'),
+    path('', home, name='home'),
 ]
